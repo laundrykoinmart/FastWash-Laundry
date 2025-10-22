@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastWash Laundry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --secondary-dark: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #95a5a6;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .location-selector {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            padding: 5px 15px;
+            color: rgb(1, 28, 53);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .coin-balance {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .coin-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 3px 0;
+            color: var(--primary);
+        }
+
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .menu-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-right: 15px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .menu-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .active-washing-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .active-washing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .active-washing-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .active-washing-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .active-washing-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .active-progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .machine-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .machine-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .machine-item.available:hover {
+            border-color: var(--primary);
+        }
+
+        .machine-info {
+            flex: 1;
+        }
+
+        .machine-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .machine-details {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .machine-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(46, 204, 113, 0.2);
+            color: var(--secondary);
+        }
+
+        .status-busy {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--danger);
+        }
+
+        .package-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .package-item {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .package-item.selected {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .package-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .package-price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .package-bonus {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .summary {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .payment-item.selected {
+            border-color: var(--primary);
+            background: rgba(52, 152, 219, 0.05);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radio.selected {
+            border-color: var(--primary);
+        }
+
+        .radio.selected::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #f5f5f5;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 5rem;
+            color: #333;
+            border: 2px dashed #ddd;
+        }
+
+        .pin-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .pin-code {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 10px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border: 2px dashed var(--primary);
+        }
+
+        .washing-process {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .process-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .process-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .process-progress {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 1s linear;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-icon {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .step-icon.active {
+            color: var(--primary);
+        }
+
+        .step-text {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .step-text.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .stage-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .stage-name {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stage-timer {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transaction-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .transaction-id {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .transaction-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .transaction-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .transaction-service {
+            font-weight: 600;
+        }
+
+        .transaction-machine {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .transaction-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .transaction-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: rgba(46, 204, 113, 0.2);
+            color: var(--secondary);
+        }
+
+        .status-processing {
+            background: rgba(52, 152, 219, 0.2);
+            color: var(--primary);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-btn {
+            background: var(--light);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">FastWash</div>
+                <select class="location-selector">
+                    <option>Cabang Sudirman</option>
+                    <option>Cabang Thamrin</option>
+                    <option>Cabang Kuningan</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <div class="coin-balance">
+                <div class="card-subtitle">Saldo Koin Anda</div>
+                <div class="coin-amount">5</div>
+                <div class="card-subtitle">Koin</div>
+            </div>
+
+            <div id="active-washing-card" class="active-washing-card hidden">
+                <div class="active-washing-header">
+                    <div class="active-washing-title">Pencucian Aktif</div>
+                    <div class="active-washing-status">Berjalan</div>
+                </div>
+                <div class="card-subtitle">Mesin: <span id="active-machine">W-01</span></div>
+                <div class="active-washing-timer" id="active-timer">35:00</div>
+                <div class="active-washing-progress">
+                    <div class="active-progress-bar" id="active-progress"></div>
+                </div>
+                <button class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;" onclick="continueWashing()">Lanjutkan Melihat</button>
+            </div>
+
+            <div class="main-menu">
+                <button class="menu-item" onclick="navigateTo('machine-page')">
+                    <div class="menu-icon"><i class="fas fa-tint"></i></div>
+                    <div class="menu-text">Cek Mesin & Mulai Cuci</div>
+                </button>
+                <button class="menu-item" onclick="navigateTo('coin-page')">
+                    <div class="menu-icon"><i class="fas fa-coins"></i></div>
+                    <div class="menu-text">Beli/Top Up Koin</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Machine Page -->
+        <div id="machine-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Ketersediaan Mesin</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="machine-list">
+                    <div class="machine-item available" onclick="selectMachine('W-01', 'Mesin Cuci 20kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">W-01 (Mesin Cuci 20kg)</div>
+                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    
+                    <div class="machine-item">
+                        <div class="machine-info">
+                            <div class="machine-name">W-02 (Mesin Cuci 20kg)</div>
+                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
+                        </div>
+                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
+                    </div>
+                    
+                    <div class="machine-item available" onclick="selectMachine('W-03', 'Mesin Cuci 20kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">W-03 (Mesin Cuci 20kg)</div>
+                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    
+                    <div class="machine-item">
+                        <div class="machine-info">
+                            <div class="machine-name">W-04 (Mesin Cuci 20kg)</div>
+                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
+                        </div>
+                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
+                    </div>
+                    
+                    <div class="machine-item available" onclick="selectMachine('W-03', 'Mesin Cuci 20kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">W-05 (Mesin Cuci 20kg)</div>
+                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    
+                    <div class="machine-item">
+                        <div class="machine-info">
+                            <div class="machine-name">D-01 (Mesin Pengering 15kg)</div>
+                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
+                        </div>
+                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
+                    </div>
+                    <div class="machine-item">
+                        <div class="machine-info">
+                            <div class="machine-name">D-02 (Mesin Pengering 15kg)</div>
+                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
+                        </div>
+                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
+                    </div>
+                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">D-03 (Mesin Pengering 15kg)</div>
+                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">D-04 (Mesin Pengering 15kg)</div>
+                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
+                        <div class="machine-info">
+                            <div class="machine-name">D-05 (Mesin Pengering 15kg)</div>
+                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
+                        </div>
+                        <div class="machine-status status-available">TERSEDIA</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cycle Page -->
+        <div id="cycle-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pilih Siklus</div>
+                    <button class="back-button" onclick="navigateTo('machine-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="card-subtitle" id="cycle-machine-name">Penggunaan Mesin</div>
+                
+                <div class="package-options">
+                    <div class="package-item selected" data-cycles="1" data-coins="1">
+                        <div class="package-header">
+                            <div class="package-name" id="cycle-package-name">1x Cuci Reguler</div>
+                            <div class="package-price">1 Koin</div>
+                        </div>
+                        <div class="package-bonus" id="cycle-duration">Durasi: 35 menit</div>
+                    </div>
+                    
+                    <div class="package-item" data-cycles="2" data-coins="2">
+                        <div class="package-header">
+                            <div class="package-name">2x Cuci Reguler</div>
+                            <div class="package-price">2 Koin</div>
+                        </div>
+                        <div class="package-bonus">Durasi: 70 menit</div>
+                    </div>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item summary-total">
+                        <div>Total Pembayaran:</div>
+                        <div id="cycle-payment-total">1 Koin</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="navigateTo('payment-page')">Lanjutkan ke Pembayaran</button>
+            </div>
+        </div>
+
+        <!-- Payment Page -->
+        <div id="payment-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pembayaran Laundry</div>
+                    <button class="back-button" onclick="navigateTo('cycle-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Mesin:</div>
+                        <div id="payment-machine">W-01</div>
+                    </div>
+                    <div class="summary-item">
+                        <div>Layanan:</div>
+                        <div id="payment-service">1x Cuci Reguler</div>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <div>Total Bayar:</div>
+                        <div id="payment-total-amount">1 Koin</div>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-item selected" onclick="selectPayment('coin')">
+                        <div class="payment-icon"><i class="fas fa-coins"></i></div>
+                        <div class="payment-info">
+                            <div class="payment-name">Gunakan Saldo Koin</div>
+                            <div class="payment-desc">Gunakan koin dari saldo Anda</div>
+                        </div>
+                        <div class="radio selected"></div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processPayment()">Bayar Sekarang</button>
+            </div>
+        </div>
+
+        <!-- Activation Page -->
+        <div id="activation-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Aktifkan Mesin</div>
+                    <button class="back-button" onclick="navigateTo('payment-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-code"><i class="fas fa-qrcode"></i></div>
+                    <p>Scan QR code di atas untuk mengaktifkan mesin</p>
+                    <p class="card-subtitle">Mesin: <span id="activation-machine">W-01</span></p>
+                </div>
+                
+                <div class="pin-container">
+                    <div class="pin-code" id="activation-pin-code">1234</div>
+                    <p>Atau masukkan kode PIN di atas pada mesin laundry</p>
+                </div>
+                
+                <button class="btn btn-primary" onclick="startWashingProcess()">Mulai Proses</button>
+            </div>
+        </div>
+
+        <!-- Washing Process Page -->
+        <div id="washing-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" id="process-title">Proses Pencucian</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Beranda
+                    </button>
+                </div>
+                
+                <div class="washing-process">
+                    <div class="process-icon">
+                        <i class="fas fa-tint" id="process-main-icon"></i>
+                    </div>
+                    <h2 class="card-title" id="process-main-title">Pencucian Sedang Berlangsung</h2>
+                    <p class="card-subtitle">Mesin: <span id="washing-machine">W-01</span></p>
+                    
+                    <div class="stage-info">
+                        <div class="stage-name" id="current-stage">Mengisi Air</div>
+                        <div class="stage-timer" id="stage-timer">05:00</div>
+                    </div>
+                    
+                    <div class="process-timer" id="washing-timer">35:00</div>
+                    
+                    <div class="process-progress">
+                        <div class="progress-bar" id="washing-progress"></div>
+                    </div>
+                    
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-icon active"><i class="fas fa-fill-drip"></i></div>
+                            <div class="step-text active">Mengisi Air</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-sync"></i></div>
+                            <div class="step-text">Mencuci</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-wind"></i></div>
+                            <div class="step-text">Membilas</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-icon"><i class="fas fa-stopwatch"></i></div>
+                            <div class="step-text">Memutar</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline" onclick="completeWashing()">Selesai & Kembali ke Beranda</button>
+            </div>
+        </div>
+
+        <!-- Coin Page -->
+        <div id="coin-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Beli / Top Up Koin</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="package-options">
+                    <div class="package-item selected" data-coins="1" data-price="10000">
+                        <div class="package-header">
+                            <div class="package-name">1 Koin</div>
+                            <div class="package-price">Rp 10.000</div>
+                        </div>
+                        <div class="package-bonus">Untuk 1x pencucian atau pengeringan</div>
+                    </div>
+                    
+                    <div class="package-item" data-coins="2" data-price="20000">
+                        <div class="package-header">
+                            <div class="package-name">2 Koin</div>
+                            <div class="package-price">Rp 20.000</div>
+                        </div>
+                        <div class="package-bonus">Untuk 2x pencucian atau pengeringan</div>
+                    </div>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Jumlah Koin:</div>
+                        <div id="coin-summary">1 Koin</div>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <div>Total Pembayaran:</div>
+                        <div id="payment-total">Rp 10.000</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="navigateTo('payment-coin-page')">Lanjutkan ke Pembayaran</button>
+            </div>
+        </div>
+
+        <!-- Payment Coin Page -->
+        <div id="payment-coin-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pembayaran Koin</div>
+                    <button class="back-button" onclick="navigateTo('coin-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Jenis:</div>
+                        <div>Top Up Koin</div>
+                    </div>
+                    <div class="summary-item">
+                        <div>Jumlah Koin:</div>
+                        <div id="payment-coin-summary">1 Koin</div>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <div>Total Bayar:</div>
+                        <div id="payment-coin-total">Rp 10.000</div>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-item selected" onclick="selectPayment('qris')">
+                        <div class="payment-icon"><i class="fas fa-qrcode"></i></div>
+                        <div class="payment-info">
+                            <div class="payment-name">QRIS</div>
+                            <div class="payment-desc">Bayar dengan aplikasi dompet digital</div>
+                        </div>
+                        <div class="radio selected"></div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processCoinPayment()">Bayar Sekarang</button>
+            </div>
+        </div>
+
+        <!-- QRIS Page -->
+        <div id="qris-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pembayaran QRIS</div>
+                    <button class="back-button" onclick="navigateTo('payment-coin-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-code"><i class="fas fa-qrcode"></i></div>
+                    <p>Scan QR code di atas menggunakan aplikasi bank atau dompet digital Anda</p>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processQRISSuccess()">Pembayaran Berhasil</button>
+            </div>
+        </div>
+
+        <!-- Success Page -->
+        <div id="success-page" class="page">
+            <div class="card">
+                <div class="text-center">
+                    <div class="qr-code" style="background: var(--secondary); color: white; margin: 20px auto;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2 class="card-title">Pembayaran Berhasil!</h2>
+                    <p class="card-subtitle">Terima kasih telah menggunakan FastWash Laundry</p>
+                    
+                    <button class="btn btn-primary mt-20" onclick="navigateTo('home-page')">Kembali ke Beranda</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="history-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Riwayat Transaksi</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterTransactions('all')">Semua</button>
+                    <button class="filter-btn" onclick="filterTransactions('laundry')">Laundry</button>
+                    <button class="filter-btn" onclick="filterTransactions('topup')">Top Up</button>
+                </div>
+
+                <div class="transaction-list" id="transaction-list"></div>
+
+                <div class="empty-state hidden" id="empty-state">
+                    <div class="empty-icon"><i class="fas fa-receipt"></i></div>
+                    <h3>Belum Ada Transaksi</h3>
+                    <p>Mulai transaksi pertama Anda untuk melihat riwayat di sini</p>
+                    <button class="btn btn-primary mt-20" onclick="navigateTo('machine-page')">Mulai Cuci Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="navigateTo('home-page')">
+            <i class="fas fa-home nav-icon"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="navigateTo('history-page')">
+            <i class="fas fa-receipt nav-icon"></i>
+            <span>Riwayat</span>
+        </button>
+        <button class="nav-item" onclick="navigateTo('help-page')">
+            <i class="fas fa-question-circle nav-icon"></i>
+            <span>Bantuan</span>
+        </button>
+    </div>
+
+    <script>
+        // Data
+        let transactions = [];
+        let currentMachine = '';
+        let selectedPackage = { coins: 1, price: 10000 };
+        let selectedCycle = { cycles: 1, coins: 1 };
+        let userCoinBalance = 5;
+        let washingTimer = null;
+        let activeWashing = null;
+        let currentTransactionId = null;
+
+        // ========== AUTOMATIC TIMING SYSTEM ==========
+        const WASHING_STAGES = [
+            { name: "Mengisi Air", duration: 5 * 60 },
+            { name: "Mencuci", duration: 10 * 60 },
+            { name: "Membilas", duration: 10 * 60 },
+            { name: "Memutar", duration: 10 * 60 }
+        ];
+
+        const DRYING_STAGES = [
+            { name: "Pemanasan", duration: 5 * 60 },
+            { name: "Pengeringan", duration: 10 * 60 },
+            { name: "Pendinginan", duration: 10 * 60 }
+        ];
+
+        let currentStageIndex = 0;
+        let currentStageTimeLeft = 0;
+        let totalTimeLeft = 0;
+        let currentStages = [];
+
+        // Navigation
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if (pageId === 'home-page') {
+                document.querySelector('.nav-item[onclick="navigateTo(\'home-page\')"]').classList.add('active');
+            } else if (pageId === 'history-page') {
+                document.querySelector('.nav-item[onclick="navigateTo(\'history-page\')"]').classList.add('active');
+                loadTransactions();
+            }
+        }
+
+        // Machine Selection
+        function selectMachine(machineId, machineName) {
+            currentMachine = machineId;
+            document.getElementById('cycle-machine-name').textContent = `Penggunaan Mesin ${machineId}`;
+            document.getElementById('payment-machine').textContent = machineId;
+            document.getElementById('activation-machine').textContent = machineId;
+            document.getElementById('washing-machine').textContent = machineId;
+            
+            // Update package based on machine type
+            const isDryer = machineId.startsWith('D-');
+            const packageName = document.getElementById('cycle-package-name');
+            const duration = document.getElementById('cycle-duration');
+            
+            if (isDryer) {
+                packageName.textContent = '1x Pengering Reguler';
+                duration.textContent = 'Durasi: 25 menit';
+            } else {
+                packageName.textContent = '1x Cuci Reguler';
+                duration.textContent = 'Durasi: 35 menit';
+            }
+            
+            navigateTo('cycle-page');
+        }
+
+        // Package Selection
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load data from localStorage
+            const savedTransactions = localStorage.getItem('fastwash_transactions');
+            if (savedTransactions) {
+                transactions = JSON.parse(savedTransactions);
+            }
+            
+            const savedBalance = localStorage.getItem('fastwash_coin_balance');
+            if (savedBalance) {
+                userCoinBalance = parseInt(savedBalance);
+                document.querySelector('.coin-amount').textContent = userCoinBalance;
+            }
+
+            // Coin packages
+            document.querySelectorAll('#coin-page .package-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#coin-page .package-item').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedPackage = {
+                        coins: parseInt(this.getAttribute('data-coins')),
+                        price: parseInt(this.getAttribute('data-price'))
+                    };
+                    
+                    document.getElementById('coin-summary').textContent = `${selectedPackage.coins} Koin`;
+                    document.getElementById('payment-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
+                    document.getElementById('payment-coin-summary').textContent = `${selectedPackage.coins} Koin`;
+                    document.getElementById('payment-coin-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
+                });
+            });
+
+            // Cycle packages
+            document.querySelectorAll('#cycle-page .package-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#cycle-page .package-item').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedCycle = {
+                        cycles: parseInt(this.getAttribute('data-cycles')),
+                        coins: parseInt(this.getAttribute('data-coins'))
+                    };
+                    
+                    document.getElementById('cycle-payment-total').textContent = `${selectedCycle.coins} Koin`;
+                    document.getElementById('payment-total-amount').textContent = `${selectedCycle.coins} Koin`;
+                });
+            });
+
+            loadTransactions();
+        });
+
+        // Payment
+        function selectPayment(method) {
+            document.querySelectorAll('.payment-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function processPayment() {
+            if (userCoinBalance < selectedCycle.coins) {
+                alert('Saldo koin tidak cukup! Silakan top up terlebih dahulu.');
+                return;
+            }
+            
+            userCoinBalance -= selectedCycle.coins;
+            document.querySelector('.coin-amount').textContent = userCoinBalance;
+            localStorage.setItem('fastwash_coin_balance', userCoinBalance.toString());
+            
+            // Generate random PIN
+            document.getElementById('activation-pin-code').textContent = Math.floor(1000 + Math.random() * 9000);
+            
+            // Navigate to activation page (barcode + PIN)
+            navigateTo('activation-page');
+        }
+
+        function processCoinPayment() {
+            userCoinBalance += selectedPackage.coins;
+            document.querySelector('.coin-amount').textContent = userCoinBalance;
+            localStorage.setItem('fastwash_coin_balance', userCoinBalance.toString());
+            
+            const transaction = addTransaction('Top Up Koin', '-', selectedPackage.price, 'topup', 'completed');
+            navigateTo('qris-page');
+        }
+
+        function processQRISSuccess() {
+            navigateTo('success-page');
+        }
+
+        // Washing Process
+        function startWashingProcess() {
+            const isDryer = currentMachine.startsWith('D-');
+            currentStages = isDryer ? DRYING_STAGES : WASHING_STAGES;
+            
+            // Calculate total time
+            totalTimeLeft = currentStages.reduce((total, stage) => total + stage.duration, 0);
+            
+            currentStageIndex = 0;
+            currentStageTimeLeft = currentStages[0].duration;
+            
+            // Update UI
+            if (isDryer) {
+                document.getElementById('process-title').textContent = 'Proses Pengeringan';
+                document.getElementById('process-main-title').textContent = 'Pengeringan Sedang Berlangsung';
+                document.getElementById('process-main-icon').className = 'fas fa-wind';
+                
+                // Update steps for drying
+                document.querySelector('.process-steps').innerHTML = `
+                    <div class="process-step">
+                        <div class="step-icon active"><i class="fas fa-fire"></i></div>
+                        <div class="step-text active">Pemanasan</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon"><i class="fas fa-wind"></i></div>
+                        <div class="step-text">Pengeringan</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon"><i class="fas fa-snowflake"></i></div>
+                        <div class="step-text">Pendinginan</div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('process-title').textContent = 'Proses Pencucian';
+                document.getElementById('process-main-title').textContent = 'Pencucian Sedang Berlangsung';
+                document.getElementById('process-main-icon').className = 'fas fa-tint';
+                
+                // Update steps for washing
+                document.querySelector('.process-steps').innerHTML = `
+                    <div class="process-step">
+                        <div class="step-icon active"><i class="fas fa-fill-drip"></i></div>
+                        <div class="step-text active">Mengisi Air</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon"><i class="fas fa-sync"></i></div>
+                        <div class="step-text">Mencuci</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon"><i class="fas fa-wind"></i></div>
+                        <div class="step-text">Membilas</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-icon"><i class="fas fa-stopwatch"></i></div>
+                        <div class="step-text">Memutar</div>
+                    </div>
+                `;
+            }
+            
+            updateStageInfo();
+            updateTimers();
+            
+            // Add transaction dengan status processing
+            const serviceName = isDryer ? 'Pengering Reguler' : 'Cuci Reguler';
+            const transaction = addTransaction(serviceName, currentMachine, selectedCycle.coins, 'laundry', 'processing');
+            currentTransactionId = transaction.id;
+            
+            // Start active washing card
+            activeWashing = { 
+                machine: currentMachine, 
+                isDryer: isDryer,
+                transactionId: currentTransactionId
+            };
+            document.getElementById('active-washing-card').classList.remove('hidden');
+            document.getElementById('active-machine').textContent = currentMachine;
+            
+            navigateTo('washing-page');
+            startTimer();
+        }
+
+        function startTimer() {
+            washingTimer = setInterval(() => {
+                totalTimeLeft--;
+                currentStageTimeLeft--;
+                
+                updateTimers();
+                
+                // Update progress
+                const totalDuration = currentStages.reduce((total, stage) => total + stage.duration, 0);
+                const progress = ((totalDuration - totalTimeLeft) / totalDuration) * 100;
+                document.getElementById('washing-progress').style.width = `${progress}%`;
+                document.getElementById('active-progress').style.width = `${progress}%`;
+                
+                // Check stage completion
+                if (currentStageTimeLeft <= 0) {
+                    currentStageIndex++;
+                    if (currentStageIndex < currentStages.length) {
+                        currentStageTimeLeft = currentStages[currentStageIndex].duration;
+                        updateStageInfo();
+                        updateSteps();
+                    }
+                }
+                
+                // Check completion
+                if (totalTimeLeft <= 0) {
+                    clearInterval(washingTimer);
+                    document.getElementById('washing-timer').textContent = '00:00';
+                    document.getElementById('stage-timer').textContent = '00:00';
+                    document.getElementById('active-timer').textContent = '00:00';
+                    completeWashing();
+                }
+            }, 1000);
+        }
+
+        function updateTimers() {
+            // Total timer
+            const totalMinutes = Math.floor(totalTimeLeft / 60);
+            const totalSeconds = totalTimeLeft % 60;
+            document.getElementById('washing-timer').textContent = 
+                `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+            document.getElementById('active-timer').textContent = 
+                `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+            
+            // Stage timer
+            const stageMinutes = Math.floor(currentStageTimeLeft / 60);
+            const stageSeconds = currentStageTimeLeft % 60;
+            document.getElementById('stage-timer').textContent = 
+                `${stageMinutes.toString().padStart(2, '0')}:${stageSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateStageInfo() {
+            if (currentStageIndex < currentStages.length) {
+                document.getElementById('current-stage').textContent = currentStages[currentStageIndex].name;
+            }
+        }
+
+        function updateSteps() {
+            const steps = document.querySelectorAll('.process-step');
+            steps.forEach((step, index) => {
+                const icon = step.querySelector('.step-icon');
+                const text = step.querySelector('.step-text');
+                
+                if (index < currentStages.length) {
+                    if (index === currentStageIndex) {
+                        icon.classList.add('active');
+                        text.classList.add('active');
+                    } else if (index < currentStageIndex) {
+                        icon.classList.add('active');
+                        text.classList.add('active');
+                    } else {
+                        icon.classList.remove('active');
+                        text.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        function continueWashing() {
+            navigateTo('washing-page');
+        }
+
+        function completeWashing() {
+            if (washingTimer) {
+                clearInterval(washingTimer);
+            }
+            
+            // Update transaction status to completed
+            if (currentTransactionId) {
+                updateTransactionStatus(currentTransactionId, 'completed');
+            }
+            
+            activeWashing = null;
+            currentTransactionId = null;
+            document.getElementById('active-washing-card').classList.add('hidden');
+            navigateTo('home-page');
+        }
+
+        // Transactions
+        function addTransaction(service, machine, amount, type, status = 'completed') {
+            const transaction = {
+                id: 'TRX-' + (transactions.length + 1).toString().padStart(3, '0'),
+                date: new Date().toLocaleDateString('id-ID', { 
+                    day: 'numeric', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }),
+                service: service,
+                machine: machine,
+                amount: amount,
+                type: type,
+                status: status
+            };
+            
+            transactions.unshift(transaction);
+            localStorage.setItem('fastwash_transactions', JSON.stringify(transactions));
+            loadTransactions();
+            
+            return transaction;
+        }
+
+        function updateTransactionStatus(transactionId, newStatus) {
+            const transaction = transactions.find(t => t.id === transactionId);
+            if (transaction) {
+                transaction.status = newStatus;
+                localStorage.setItem('fastwash_transactions', JSON.stringify(transactions));
+                loadTransactions();
+            }
+        }
+
+        function loadTransactions() {
+            const list = document.getElementById('transaction-list');
+            const empty = document.getElementById('empty-state');
+            
+            if (transactions.length === 0) {
+                list.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+            
+            list.classList.remove('hidden');
+            empty.classList.add('hidden');
+            list.innerHTML = '';
+            
+            // Sort transactions by date (newest first)
+            const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedTransactions.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                const amountDisplay = transaction.type === 'topup' 
+                    ? 'Rp ' + transaction.amount.toLocaleString()
+                    : transaction.amount + ' Koin';
+                
+                const statusClass = transaction.status === 'processing' ? 'status-processing' : 'status-completed';
+                const statusText = transaction.status === 'processing' ? 'Berjalan' : 'Selesai';
+                
+                item.innerHTML = `
+                    <div class="transaction-header">
+                        <div class="transaction-id">${transaction.id}</div>
+                        <div class="transaction-date">${transaction.date}</div>
+                    </div>
+                    <div class="transaction-details">
+                        <div>
+                            <div class="transaction-service">${transaction.service}</div>
+                            <div class="transaction-machine">${transaction.machine}</div>
+                        </div>
+                        <div class="transaction-amount">${amountDisplay}</div>
+                    </div>
+                    <div class="transaction-footer">
+                        <div class="transaction-status ${statusClass}">${statusText}</div>
+                    </div>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+
+        function filterTransactions(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const list = document.getElementById('transaction-list');
+            const empty = document.getElementById('empty-state');
+            
+            let filteredTransactions = transactions;
+            if (filter !== 'all') {
+                filteredTransactions = transactions.filter(t => t.type === filter);
+            }
+            
+            if (filteredTransactions.length === 0) {
+                list.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+            
+            list.classList.remove('hidden');
+            empty.classList.add('hidden');
+            list.innerHTML = '';
+            
+            // Sort filtered transactions
+            const sortedTransactions = [...filteredTransactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedTransactions.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                const amountDisplay = transaction.type === 'topup' 
+                    ? 'Rp ' + transaction.amount.toLocaleString()
+                    : transaction.amount + ' Koin';
+                
+                const statusClass = transaction.status === 'processing' ? 'status-processing' : 'status-completed';
+                const statusText = transaction.status === 'processing' ? 'Berjalan' : 'Selesai';
+                
+                item.innerHTML = `
+                    <div class="transaction-header">
+                        <div class="transaction-id">${transaction.id}</div>
+                        <div class="transaction-date">${transaction.date}</div>
+                    </div>
+                    <div class="transaction-details">
+                        <div>
+                            <div class="transaction-service">${transaction.service}</div>
+                            <div class="transaction-machine">${transaction.machine}</div>
+                        </div>
+                        <div class="transaction-amount">${amountDisplay}</div>
+                    </div>
+                    <div class="transaction-footer">
+                        <div class="transaction-status ${statusClass}">${statusText}</div>
+                    </div>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+    </script>
+</body>
+  </html>

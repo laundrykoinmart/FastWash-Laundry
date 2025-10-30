@@ -65,7 +65,7 @@
             border: none;
             border-radius: 20px;
             padding: 5px 15px;
-            color: rgb(1, 28, 53);
+            color: white;
             font-size: 0.9rem;
             cursor: pointer;
         }
@@ -417,6 +417,91 @@
             background: var(--primary);
         }
 
+        .coupon-section {
+            margin: 20px 0;
+        }
+
+        .coupon-item {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .coupon-item.selected {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            border: 2px solid var(--secondary);
+        }
+
+        .coupon-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .coupon-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        .coupon-value {
+            font-weight: 700;
+            color: var(--secondary-dark);
+            font-size: 1.1rem;
+        }
+
+        .coupon-desc {
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .coupon-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .no-coupon {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .additional-service-active {
+            background: rgba(46, 204, 113, 0.15);
+            border: 2px solid var(--secondary);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .service-duration {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-dark);
+            margin: 10px 0;
+        }
+
         .qr-container {
             text-align: center;
             margin: 20px 0;
@@ -744,6 +829,14 @@
                     <div class="active-washing-status">Berjalan</div>
                 </div>
                 <div class="card-subtitle">Mesin: <span id="active-machine">W-01</span></div>
+                
+                <div id="home-additional-service" class="hidden">
+                    <div class="additional-service-active" style="margin: 10px 0; padding: 10px;">
+                        <div class="service-duration" id="home-additional-service-text"></div>
+                        <div class="card-subtitle">Layanan tambahan aktif</div>
+                    </div>
+                </div>
+                
                 <div class="active-washing-timer" id="active-timer">35:00</div>
                 <div class="active-washing-progress">
                     <div class="active-progress-bar" id="active-progress"></div>
@@ -760,6 +853,10 @@
                     <div class="menu-icon"><i class="fas fa-coins"></i></div>
                     <div class="menu-text">Beli/Top Up Koin</div>
                 </button>
+                <button class="menu-item" onclick="navigateTo('additional-services-page')">
+                    <div class="menu-icon"><i class="fas fa-plus-circle"></i></div>
+                    <div class="menu-text">Layanan Tambahan</div>
+                </button>
             </div>
         </div>
 
@@ -773,83 +870,8 @@
                     </button>
                 </div>
                 
-                <div class="machine-list">
-                    <div class="machine-item available" onclick="selectMachine('W-01', 'Mesin Cuci 20kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">W-01 (Mesin Cuci 20kg)</div>
-                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    
-                    <div class="machine-item">
-                        <div class="machine-info">
-                            <div class="machine-name">W-02 (Mesin Cuci 20kg)</div>
-                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
-                        </div>
-                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
-                    </div>
-                    
-                    <div class="machine-item available" onclick="selectMachine('W-03', 'Mesin Cuci 20kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">W-03 (Mesin Cuci 20kg)</div>
-                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    
-                    <div class="machine-item">
-                        <div class="machine-info">
-                            <div class="machine-name">W-04 (Mesin Cuci 20kg)</div>
-                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
-                        </div>
-                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
-                    </div>
-                    
-                    <div class="machine-item available" onclick="selectMachine('W-03', 'Mesin Cuci 20kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">W-05 (Mesin Cuci 20kg)</div>
-                            <div class="machine-details">Kapasitas: 20kg - Durasi: 35 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    
-                    <div class="machine-item">
-                        <div class="machine-info">
-                            <div class="machine-name">D-01 (Mesin Pengering 15kg)</div>
-                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
-                        </div>
-                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
-                    </div>
-                    <div class="machine-item">
-                        <div class="machine-info">
-                            <div class="machine-name">D-02 (Mesin Pengering 15kg)</div>
-                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
-                        </div>
-                        <div class="machine-status status-busy">SEDANG DIGUNAKAN</div>
-                    </div>
-                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">D-03 (Mesin Pengering 15kg)</div>
-                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">D-04 (Mesin Pengering 15kg)</div>
-                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    <div class="machine-item available" onclick="selectMachine('D-01', 'Mesin Pengering 15kg')">
-                        <div class="machine-info">
-                            <div class="machine-name">D-05 (Mesin Pengering 15kg)</div>
-                            <div class="machine-details">Kapasitas: 15kg - Durasi: 25 menit</div>
-                        </div>
-                        <div class="machine-status status-available">TERSEDIA</div>
-                    </div>
-                    </div>
+                <div class="machine-list" id="machine-list">
+                    <!-- Machine items akan di-generate oleh JavaScript -->
                 </div>
             </div>
         </div>
@@ -919,6 +941,21 @@
                         <div id="payment-total-amount">1 Koin</div>
                     </div>
                 </div>
+
+                <div class="coupon-section">
+                    <h3 class="card-title">Gunakan Layanan Tambahan</h3>
+                    <div class="card-subtitle">Pilih kupon layanan tambahan yang ingin digunakan</div>
+                    
+                    <div id="coupon-list">
+                        <!-- Kupon akan di-generate secara dinamis -->
+                    </div>
+                    
+                    <div id="no-coupon" class="no-coupon hidden">
+                        <i class="fas fa-ticket-alt" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>Anda belum memiliki kupon layanan tambahan</p>
+                        <button class="btn btn-outline mt-20" onclick="navigateTo('additional-services-page')">Beli Layanan Tambahan</button>
+                    </div>
+                </div>
                 
                 <div class="payment-methods">
                     <div class="payment-item selected" onclick="selectPayment('coin')">
@@ -977,6 +1014,11 @@
                     <h2 class="card-title" id="process-main-title">Pencucian Sedang Berlangsung</h2>
                     <p class="card-subtitle">Mesin: <span id="washing-machine">W-01</span></p>
                     
+                    <div id="active-additional-service-info" class="additional-service-active hidden">
+                        <div class="service-duration" id="additional-service-active">+10 menit waktu pencucian</div>
+                        <p class="card-subtitle">Layanan tambahan aktif</p>
+                    </div>
+                    
                     <div class="stage-info">
                         <div class="stage-name" id="current-stage">Mengisi Air</div>
                         <div class="stage-timer" id="stage-timer">05:00</div>
@@ -1009,6 +1051,152 @@
                 </div>
                 
                 <button class="btn btn-outline" onclick="completeWashing()">Selesai & Kembali ke Beranda</button>
+            </div>
+        </div>
+
+        <!-- Additional Services Page -->
+        <div id="additional-services-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Beli Layanan Tambahan</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="package-options">
+                    <div class="package-item selected" data-service="extra-wash" data-price="3000" data-duration="10" data-type="wash">
+                        <div class="package-header">
+                            <div class="package-name">Tambah Waktu Pencucian</div>
+                            <div class="package-price">Rp 3.000</div>
+                        </div>
+                        <div class="package-bonus">+10 menit waktu pencucian</div>
+                    </div>
+                    
+                    <div class="package-item" data-service="extra-dry" data-price="3000" data-duration="5" data-type="dry">
+                        <div class="package-header">
+                            <div class="package-name">Tambah Waktu Pengeringan</div>
+                            <div class="package-price">Rp 3.000</div>
+                        </div>
+                        <div class="package-bonus">+5 menit waktu pengeringan</div>
+                    </div>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Layanan:</div>
+                        <div id="additional-service-summary">Tambah Waktu Pencucian</div>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <div>Total Pembayaran:</div>
+                        <div id="additional-service-total">Rp 3.000</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="navigateTo('payment-additional-service-page')">Beli Sekarang</button>
+            </div>
+        </div>
+
+        <!-- Payment Additional Service Page -->
+        <div id="payment-additional-service-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pembayaran Layanan Tambahan</div>
+                    <button class="back-button" onclick="navigateTo('additional-services-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Jenis Layanan:</div>
+                        <div id="payment-additional-service">Tambah Waktu Pencucian</div>
+                    </div>
+                    <div class="summary-item">
+                        <div>Durasi Tambahan:</div>
+                        <div id="payment-additional-duration">+10 menit</div>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <div>Total Bayar:</div>
+                        <div id="payment-additional-service-total">Rp 3.000</div>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-item selected">
+                        <div class="payment-icon"><i class="fas fa-qrcode"></i></div>
+                        <div class="payment-info">
+                            <div class="payment-name">QRIS</div>
+                            <div class="payment-desc">Bayar dengan aplikasi dompet digital</div>
+                        </div>
+                        <div class="radio selected"></div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processAdditionalServicePayment()">Bayar Sekarang</button>
+            </div>
+        </div>
+
+        <!-- QRIS Page untuk Layanan Tambahan -->
+        <div id="qris-additional-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pembayaran QRIS</div>
+                    <button class="back-button" onclick="navigateTo('payment-additional-service-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-code"><i class="fas fa-qrcode"></i></div>
+                    <p>Scan QR code di atas menggunakan aplikasi bank atau dompet digital Anda</p>
+                    <p class="card-subtitle">Layanan: <span id="qris-additional-service">Tambah Waktu Pencucian</span></p>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processAdditionalServiceQRISSuccess()">Pembayaran Berhasil</button>
+            </div>
+        </div>
+
+        <!-- Success Page -->
+        <div id="success-page" class="page">
+            <div class="card">
+                <div class="text-center">
+                    <div class="qr-code" style="background: var(--secondary); color: white; margin: 20px auto;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2 class="card-title">Pembayaran Berhasil!</h2>
+                    <p class="card-subtitle">Terima kasih telah menggunakan FastWash Laundry</p>
+                    
+                    <button class="btn btn-primary mt-20" onclick="navigateTo('home-page')">Kembali ke Beranda</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="history-page" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Riwayat Transaksi</div>
+                    <button class="back-button" onclick="navigateTo('home-page')">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                </div>
+
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterTransactions('all')">Semua</button>
+                    <button class="filter-btn" onclick="filterTransactions('laundry')">Laundry</button>
+                    <button class="filter-btn" onclick="filterTransactions('topup')">Top Up</button>
+                    <button class="filter-btn" onclick="filterTransactions('additional')">Layanan Tambahan</button>
+                </div>
+
+                <div class="transaction-list" id="transaction-list"></div>
+
+                <div class="empty-state hidden" id="empty-state">
+                    <div class="empty-icon"><i class="fas fa-receipt"></i></div>
+                    <h3>Belum Ada Transaksi</h3>
+                    <p>Mulai transaksi pertama Anda untuk melihat riwayat di sini</p>
+                    <button class="btn btn-primary mt-20" onclick="navigateTo('machine-page')">Mulai Cuci Sekarang</button>
+                </div>
             </div>
         </div>
 
@@ -1095,7 +1283,7 @@
             </div>
         </div>
 
-        <!-- QRIS Page -->
+        <!-- QRIS Page untuk Top Up Koin -->
         <div id="qris-page" class="page">
             <div class="card">
                 <div class="card-header">
@@ -1111,48 +1299,6 @@
                 </div>
                 
                 <button class="btn btn-primary" onclick="processQRISSuccess()">Pembayaran Berhasil</button>
-            </div>
-        </div>
-
-        <!-- Success Page -->
-        <div id="success-page" class="page">
-            <div class="card">
-                <div class="text-center">
-                    <div class="qr-code" style="background: var(--secondary); color: white; margin: 20px auto;">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <h2 class="card-title">Pembayaran Berhasil!</h2>
-                    <p class="card-subtitle">Terima kasih telah menggunakan FastWash Laundry</p>
-                    
-                    <button class="btn btn-primary mt-20" onclick="navigateTo('home-page')">Kembali ke Beranda</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- History Page -->
-        <div id="history-page" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Riwayat Transaksi</div>
-                    <button class="back-button" onclick="navigateTo('home-page')">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </button>
-                </div>
-
-                <div class="filter-options">
-                    <button class="filter-btn active" onclick="filterTransactions('all')">Semua</button>
-                    <button class="filter-btn" onclick="filterTransactions('laundry')">Laundry</button>
-                    <button class="filter-btn" onclick="filterTransactions('topup')">Top Up</button>
-                </div>
-
-                <div class="transaction-list" id="transaction-list"></div>
-
-                <div class="empty-state hidden" id="empty-state">
-                    <div class="empty-icon"><i class="fas fa-receipt"></i></div>
-                    <h3>Belum Ada Transaksi</h3>
-                    <p>Mulai transaksi pertama Anda untuk melihat riwayat di sini</p>
-                    <button class="btn btn-primary mt-20" onclick="navigateTo('machine-page')">Mulai Cuci Sekarang</button>
-                </div>
             </div>
         </div>
     </div>
@@ -1179,126 +1325,197 @@
         let currentMachine = '';
         let selectedPackage = { coins: 1, price: 10000 };
         let selectedCycle = { cycles: 1, coins: 1 };
+        let selectedAdditionalService = { 
+            service: 'extra-wash', 
+            price: 3000, 
+            name: 'Tambah Waktu Pencucian',
+            duration: 10,
+            type: 'wash'
+        };
         let userCoinBalance = 5;
         let washingTimer = null;
         let activeWashing = null;
         let currentTransactionId = null;
+        let purchasedAdditionalServices = [];
+        let activeAdditionalService = null;
+        let selectedCoupon = null;
 
-        // ========== AUTOMATIC TIMING SYSTEM ==========
-        const WASHING_STAGES = [
-            { name: "Mengisi Air", duration: 5 * 60 },
-            { name: "Mencuci", duration: 10 * 60 },
-            { name: "Membilas", duration: 10 * 60 },
-            { name: "Memutar", duration: 10 * 60 }
-        ];
+        // SINKRONISASI MESIN - DATA BARU
+        let machines = [];
 
-        const DRYING_STAGES = [
-            { name: "Pemanasan", duration: 5 * 60 },
-            { name: "Pengeringan", duration: 10 * 60 },
-            { name: "Pendinginan", duration: 10 * 60 }
-        ];
+        // Fungsi untuk inisialisasi mesin
+        function initializeMachines() {
+            const savedMachines = localStorage.getItem('fastwash_machines');
+            if (!savedMachines) {
+                const initialMachines = [
+                    { id: 'W-01', name: 'Mesin Cuci 20kg', type: 'wash', capacity: '20kg', status: 'available', duration: 35 },
+                    { id: 'W-02', name: 'Mesin Cuci 20kg', type: 'wash', capacity: '20kg', status: 'available', duration: 35 },
+                    { id: 'W-03', name: 'Mesin Cuci 20kg', type: 'wash', capacity: '20kg', status: 'available', duration: 35 },
+                    { id: 'W-04', name: 'Mesin Cuci 20kg', type: 'wash', capacity: '20kg', status: 'available', duration: 35 },
+                    { id: 'W-05', name: 'Mesin Cuci 20kg', type: 'wash', capacity: '20kg', status: 'available', duration: 35 },
+                    { id: 'D-01', name: 'Mesin Pengering 15kg', type: 'dry', capacity: '15kg', status: 'available', duration: 25 },
+                    { id: 'D-02', name: 'Mesin Pengering 15kg', type: 'dry', capacity: '15kg', status: 'available', duration: 25 },
+                    { id: 'D-03', name: 'Mesin Pengering 15kg', type: 'dry', capacity: '15kg', status: 'available', duration: 25 },
+                    { id: 'D-04', name: 'Mesin Pengering 15kg', type: 'dry', capacity: '15kg', status: 'available', duration: 25 },
+                    { id: 'D-05', name: 'Mesin Pengering 15kg', type: 'dry', capacity: '15kg', status: 'available', duration: 25 }
+                ];
+                localStorage.setItem('fastwash_machines', JSON.stringify(initialMachines));
+                machines = initialMachines;
+            } else {
+                machines = JSON.parse(savedMachines);
+            }
+        }
 
-        let currentStageIndex = 0;
-        let currentStageTimeLeft = 0;
-        let totalTimeLeft = 0;
-        let currentStages = [];
+        // Fungsi untuk render mesin
+        function renderMachines() {
+            const machineList = document.getElementById('machine-list');
+            machineList.innerHTML = '';
+            
+            machines.forEach(machine => {
+                const machineItem = document.createElement('div');
+                machineItem.className = `machine-item ${machine.status === 'available' ? 'available' : ''}`;
+                
+                if (machine.status === 'available') {
+                    machineItem.onclick = () => selectMachine(machine.id);
+                }
+                
+                machineItem.innerHTML = `
+                    <div class="machine-info">
+                        <div class="machine-name">${machine.id} (${machine.name})</div>
+                        <div class="machine-details">Kapasitas: ${machine.capacity} - Durasi: ${machine.duration} menit</div>
+                    </div>
+                    <div class="machine-status ${machine.status === 'available' ? 'status-available' : 'status-busy'}">
+                        ${machine.status === 'available' ? 'TERSEDIA' : 'SEDANG DIGUNAKAN'}
+                    </div>
+                `;
+                
+                machineList.appendChild(machineItem);
+            });
+        }
+
+        // Fungsi untuk update status mesin
+        function updateMachineStatus(machineId, newStatus) {
+            const machine = machines.find(m => m.id === machineId);
+            if (machine) {
+                machine.status = newStatus;
+                localStorage.setItem('fastwash_machines', JSON.stringify(machines));
+                renderMachines();
+            }
+        }
+
+        // Auto refresh status mesin setiap 3 detik
+        function startMachineAutoRefresh() {
+            setInterval(() => {
+                const savedMachines = localStorage.getItem('fastwash_machines');
+                if (savedMachines) {
+                    machines = JSON.parse(savedMachines);
+                    renderMachines();
+                }
+            }, 3000);
+        }
 
         // Navigation
         function navigateTo(pageId) {
             document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
-            // Update nav active state
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             if (pageId === 'home-page') {
                 document.querySelector('.nav-item[onclick="navigateTo(\'home-page\')"]').classList.add('active');
             } else if (pageId === 'history-page') {
                 document.querySelector('.nav-item[onclick="navigateTo(\'history-page\')"]').classList.add('active');
                 loadTransactions();
+            } else if (pageId === 'machine-page') {
+                renderMachines();
+            } else if (pageId === 'payment-page') {
+                loadCoupons();
             }
         }
 
-        // Machine Selection
-        function selectMachine(machineId, machineName) {
-            currentMachine = machineId;
-            document.getElementById('cycle-machine-name').textContent = `Penggunaan Mesin ${machineId}`;
-            document.getElementById('payment-machine').textContent = machineId;
-            document.getElementById('activation-machine').textContent = machineId;
-            document.getElementById('washing-machine').textContent = machineId;
-            
-            // Update package based on machine type
-            const isDryer = machineId.startsWith('D-');
-            const packageName = document.getElementById('cycle-package-name');
-            const duration = document.getElementById('cycle-duration');
-            
-            if (isDryer) {
-                packageName.textContent = '1x Pengering Reguler';
-                duration.textContent = 'Durasi: 25 menit';
-            } else {
-                packageName.textContent = '1x Cuci Reguler';
-                duration.textContent = 'Durasi: 35 menit';
+        // Machine Selection - DIMODIFIKASI untuk sinkronisasi
+        function selectMachine(machineId) {
+            const machine = machines.find(m => m.id === machineId);
+            if (machine && machine.status === 'available') {
+                currentMachine = machineId;
+                document.getElementById('cycle-machine-name').textContent = `Penggunaan Mesin ${machineId}`;
+                document.getElementById('payment-machine').textContent = machineId;
+                document.getElementById('activation-machine').textContent = machineId;
+                document.getElementById('washing-machine').textContent = machineId;
+                
+                // Update package based on machine type
+                const isDryer = machineId.startsWith('D-');
+                const packageName = document.getElementById('cycle-package-name');
+                const duration = document.getElementById('cycle-duration');
+                
+                if (isDryer) {
+                    packageName.textContent = '1x Pengering Reguler';
+                    duration.textContent = 'Durasi: 25 menit';
+                } else {
+                    packageName.textContent = '1x Cuci Reguler';
+                    duration.textContent = 'Durasi: 35 menit';
+                }
+                
+                navigateTo('cycle-page');
             }
-            
-            navigateTo('cycle-page');
         }
 
-        // Package Selection
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load data from localStorage
-            const savedTransactions = localStorage.getItem('fastwash_transactions');
-            if (savedTransactions) {
-                transactions = JSON.parse(savedTransactions);
+        // Load coupons
+        function loadCoupons() {
+            const couponList = document.getElementById('coupon-list');
+            const noCoupon = document.getElementById('no-coupon');
+            
+            couponList.innerHTML = '';
+            selectedCoupon = null;
+            
+            if (purchasedAdditionalServices.length === 0) {
+                noCoupon.classList.remove('hidden');
+                couponList.classList.add('hidden');
+                return;
             }
             
-            const savedBalance = localStorage.getItem('fastwash_coin_balance');
-            if (savedBalance) {
-                userCoinBalance = parseInt(savedBalance);
-                document.querySelector('.coin-amount').textContent = userCoinBalance;
-            }
-
-            // Coin packages
-            document.querySelectorAll('#coin-page .package-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('#coin-page .package-item').forEach(p => p.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    selectedPackage = {
-                        coins: parseInt(this.getAttribute('data-coins')),
-                        price: parseInt(this.getAttribute('data-price'))
-                    };
-                    
-                    document.getElementById('coin-summary').textContent = `${selectedPackage.coins} Koin`;
-                    document.getElementById('payment-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
-                    document.getElementById('payment-coin-summary').textContent = `${selectedPackage.coins} Koin`;
-                    document.getElementById('payment-coin-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
-                });
+            noCoupon.classList.add('hidden');
+            couponList.classList.remove('hidden');
+            
+            purchasedAdditionalServices.forEach((coupon, index) => {
+                const couponItem = document.createElement('div');
+                couponItem.className = 'coupon-item';
+                couponItem.onclick = function() { selectCoupon(index); };
+                
+                const durationText = coupon.type === 'wash' 
+                    ? `+${coupon.duration} menit waktu pencucian` 
+                    : `+${coupon.duration} menit waktu pengeringan`;
+                
+                couponItem.innerHTML = `
+                    <div class="coupon-header">
+                        <div class="coupon-name">${coupon.name}</div>
+                        <div class="coupon-value">GRATIS</div>
+                    </div>
+                    <div class="coupon-desc">${durationText}</div>
+                `;
+                
+                couponList.appendChild(couponItem);
             });
+        }
 
-            // Cycle packages
-            document.querySelectorAll('#cycle-page .package-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('#cycle-page .package-item').forEach(p => p.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    selectedCycle = {
-                        cycles: parseInt(this.getAttribute('data-cycles')),
-                        coins: parseInt(this.getAttribute('data-coins'))
-                    };
-                    
-                    document.getElementById('cycle-payment-total').textContent = `${selectedCycle.coins} Koin`;
-                    document.getElementById('payment-total-amount').textContent = `${selectedCycle.coins} Koin`;
-                });
-            });
+        // Select coupon
+        function selectCoupon(index) {
+            document.querySelectorAll('.coupon-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            selectedCoupon = purchasedAdditionalServices[index];
+            
+            document.getElementById('payment-service').innerHTML = `
+                1x Cuci Reguler 
+                <span class="coupon-badge">+ ${selectedCoupon.duration} menit</span>
+            `;
+        }
 
-            loadTransactions();
-        });
-
-        // Payment
+        // Payment methods
         function selectPayment(method) {
             document.querySelectorAll('.payment-item').forEach(item => item.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
         }
 
+        // Process payment - DIMODIFIKASI untuk sinkronisasi
         function processPayment() {
             if (userCoinBalance < selectedCycle.coins) {
                 alert('Saldo koin tidak cukup! Silakan top up terlebih dahulu.');
@@ -1309,93 +1526,62 @@
             document.querySelector('.coin-amount').textContent = userCoinBalance;
             localStorage.setItem('fastwash_coin_balance', userCoinBalance.toString());
             
-            // Generate random PIN
-            document.getElementById('activation-pin-code').textContent = Math.floor(1000 + Math.random() * 9000);
+            // Update status mesin menjadi busy
+            updateMachineStatus(currentMachine, 'busy');
             
-            // Navigate to activation page (barcode + PIN)
+            // Jika ada kupon yang dipilih, aktifkan layanan tambahan
+            if (selectedCoupon) {
+                activeAdditionalService = selectedCoupon;
+                purchasedAdditionalServices = purchasedAdditionalServices.filter(coupon => coupon !== selectedCoupon);
+                localStorage.setItem('fastwash_additional_services', JSON.stringify(purchasedAdditionalServices));
+            }
+            
+            document.getElementById('activation-pin-code').textContent = Math.floor(1000 + Math.random() * 9000);
             navigateTo('activation-page');
         }
 
-        function processCoinPayment() {
-            userCoinBalance += selectedPackage.coins;
-            document.querySelector('.coin-amount').textContent = userCoinBalance;
-            localStorage.setItem('fastwash_coin_balance', userCoinBalance.toString());
-            
-            const transaction = addTransaction('Top Up Koin', '-', selectedPackage.price, 'topup', 'completed');
-            navigateTo('qris-page');
-        }
-
-        function processQRISSuccess() {
-            navigateTo('success-page');
-        }
-
-        // Washing Process
+        // Start washing process
         function startWashingProcess() {
             const isDryer = currentMachine.startsWith('D-');
-            currentStages = isDryer ? DRYING_STAGES : WASHING_STAGES;
             
-            // Calculate total time
-            totalTimeLeft = currentStages.reduce((total, stage) => total + stage.duration, 0);
+            let totalTime = isDryer ? 25 * 60 : 35 * 60;
             
-            currentStageIndex = 0;
-            currentStageTimeLeft = currentStages[0].duration;
+            if (activeAdditionalService) {
+                if ((isDryer && activeAdditionalService.type === 'dry') || 
+                    (!isDryer && activeAdditionalService.type === 'wash')) {
+                    totalTime += activeAdditionalService.duration * 60;
+                }
+            }
             
-            // Update UI
+            totalTimeLeft = totalTime;
+            originalTotalTime = totalTime;
+            
             if (isDryer) {
                 document.getElementById('process-title').textContent = 'Proses Pengeringan';
                 document.getElementById('process-main-title').textContent = 'Pengeringan Sedang Berlangsung';
                 document.getElementById('process-main-icon').className = 'fas fa-wind';
-                
-                // Update steps for drying
-                document.querySelector('.process-steps').innerHTML = `
-                    <div class="process-step">
-                        <div class="step-icon active"><i class="fas fa-fire"></i></div>
-                        <div class="step-text active">Pemanasan</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-icon"><i class="fas fa-wind"></i></div>
-                        <div class="step-text">Pengeringan</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-icon"><i class="fas fa-snowflake"></i></div>
-                        <div class="step-text">Pendinginan</div>
-                    </div>
-                `;
             } else {
                 document.getElementById('process-title').textContent = 'Proses Pencucian';
                 document.getElementById('process-main-title').textContent = 'Pencucian Sedang Berlangsung';
                 document.getElementById('process-main-icon').className = 'fas fa-tint';
-                
-                // Update steps for washing
-                document.querySelector('.process-steps').innerHTML = `
-                    <div class="process-step">
-                        <div class="step-icon active"><i class="fas fa-fill-drip"></i></div>
-                        <div class="step-text active">Mengisi Air</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-icon"><i class="fas fa-sync"></i></div>
-                        <div class="step-text">Mencuci</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-icon"><i class="fas fa-wind"></i></div>
-                        <div class="step-text">Membilas</div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-icon"><i class="fas fa-stopwatch"></i></div>
-                        <div class="step-text">Memutar</div>
-                    </div>
-                `;
             }
             
-            updateStageInfo();
+            if (activeAdditionalService) {
+                const durationText = activeAdditionalService.type === 'wash' 
+                    ? `+${activeAdditionalService.duration} menit waktu pencucian` 
+                    : `+${activeAdditionalService.duration} menit waktu pengeringan`;
+                document.getElementById('additional-service-active').textContent = durationText;
+                document.getElementById('active-additional-service-info').classList.remove('hidden');
+                document.getElementById('home-additional-service-text').textContent = durationText;
+                document.getElementById('home-additional-service').classList.remove('hidden');
+            }
+            
             updateTimers();
             
-            // Add transaction dengan status processing
             const serviceName = isDryer ? 'Pengering Reguler' : 'Cuci Reguler';
             const transaction = addTransaction(serviceName, currentMachine, selectedCycle.coins, 'laundry', 'processing');
             currentTransactionId = transaction.id;
             
-            // Start active washing card
             activeWashing = { 
                 machine: currentMachine, 
                 isDryer: isDryer,
@@ -1408,34 +1594,19 @@
             startTimer();
         }
 
+        // Timer functions
         function startTimer() {
             washingTimer = setInterval(() => {
                 totalTimeLeft--;
-                currentStageTimeLeft--;
-                
                 updateTimers();
                 
-                // Update progress
-                const totalDuration = currentStages.reduce((total, stage) => total + stage.duration, 0);
-                const progress = ((totalDuration - totalTimeLeft) / totalDuration) * 100;
+                const progress = ((originalTotalTime - totalTimeLeft) / originalTotalTime) * 100;
                 document.getElementById('washing-progress').style.width = `${progress}%`;
                 document.getElementById('active-progress').style.width = `${progress}%`;
                 
-                // Check stage completion
-                if (currentStageTimeLeft <= 0) {
-                    currentStageIndex++;
-                    if (currentStageIndex < currentStages.length) {
-                        currentStageTimeLeft = currentStages[currentStageIndex].duration;
-                        updateStageInfo();
-                        updateSteps();
-                    }
-                }
-                
-                // Check completion
                 if (totalTimeLeft <= 0) {
                     clearInterval(washingTimer);
                     document.getElementById('washing-timer').textContent = '00:00';
-                    document.getElementById('stage-timer').textContent = '00:00';
                     document.getElementById('active-timer').textContent = '00:00';
                     completeWashing();
                 }
@@ -1443,61 +1614,36 @@
         }
 
         function updateTimers() {
-            // Total timer
             const totalMinutes = Math.floor(totalTimeLeft / 60);
             const totalSeconds = totalTimeLeft % 60;
             document.getElementById('washing-timer').textContent = 
                 `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
             document.getElementById('active-timer').textContent = 
                 `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
-            
-            // Stage timer
-            const stageMinutes = Math.floor(currentStageTimeLeft / 60);
-            const stageSeconds = currentStageTimeLeft % 60;
-            document.getElementById('stage-timer').textContent = 
-                `${stageMinutes.toString().padStart(2, '0')}:${stageSeconds.toString().padStart(2, '0')}`;
-        }
-
-        function updateStageInfo() {
-            if (currentStageIndex < currentStages.length) {
-                document.getElementById('current-stage').textContent = currentStages[currentStageIndex].name;
-            }
-        }
-
-        function updateSteps() {
-            const steps = document.querySelectorAll('.process-step');
-            steps.forEach((step, index) => {
-                const icon = step.querySelector('.step-icon');
-                const text = step.querySelector('.step-text');
-                
-                if (index < currentStages.length) {
-                    if (index === currentStageIndex) {
-                        icon.classList.add('active');
-                        text.classList.add('active');
-                    } else if (index < currentStageIndex) {
-                        icon.classList.add('active');
-                        text.classList.add('active');
-                    } else {
-                        icon.classList.remove('active');
-                        text.classList.remove('active');
-                    }
-                }
-            });
         }
 
         function continueWashing() {
             navigateTo('washing-page');
         }
 
+        // Complete washing - DIMODIFIKASI untuk sinkronisasi
         function completeWashing() {
             if (washingTimer) {
                 clearInterval(washingTimer);
             }
             
-            // Update transaction status to completed
             if (currentTransactionId) {
                 updateTransactionStatus(currentTransactionId, 'completed');
             }
+            
+            // Kembalikan status mesin menjadi available
+            if (currentMachine) {
+                updateMachineStatus(currentMachine, 'available');
+            }
+            
+            activeAdditionalService = null;
+            document.getElementById('active-additional-service-info').classList.add('hidden');
+            document.getElementById('home-additional-service').classList.add('hidden');
             
             activeWashing = null;
             currentTransactionId = null;
@@ -1505,7 +1651,34 @@
             navigateTo('home-page');
         }
 
-        // Transactions
+        // Coin payment process
+        function processCoinPayment() {
+            navigateTo('qris-page');
+        }
+
+        function processQRISSuccess() {
+            userCoinBalance += selectedPackage.coins;
+            document.querySelector('.coin-amount').textContent = userCoinBalance;
+            localStorage.setItem('fastwash_coin_balance', userCoinBalance.toString());
+            
+            const transaction = addTransaction('Top Up Koin', '-', selectedPackage.price, 'topup', 'completed');
+            navigateTo('success-page');
+        }
+
+        // Additional service payment
+        function processAdditionalServicePayment() {
+            navigateTo('qris-additional-page');
+        }
+
+        function processAdditionalServiceQRISSuccess() {
+            purchasedAdditionalServices.push({...selectedAdditionalService});
+            localStorage.setItem('fastwash_additional_services', JSON.stringify(purchasedAdditionalServices));
+            
+            addTransaction(selectedAdditionalService.name, '-', selectedAdditionalService.price, 'additional', 'completed');
+            navigateTo('success-page');
+        }
+
+        // Transaction functions
         function addTransaction(service, machine, amount, type, status = 'completed') {
             const transaction = {
                 id: 'TRX-' + (transactions.length + 1).toString().padStart(3, '0'),
@@ -1550,14 +1723,13 @@
             empty.classList.add('hidden');
             list.innerHTML = '';
             
-            // Sort transactions by date (newest first)
             const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             sortedTransactions.forEach(transaction => {
                 const item = document.createElement('div');
                 item.className = 'transaction-item';
                 
-                const amountDisplay = transaction.type === 'topup' 
+                const amountDisplay = transaction.type === 'topup' || transaction.type === 'additional'
                     ? 'Rp ' + transaction.amount.toLocaleString()
                     : transaction.amount + ' Koin';
                 
@@ -1607,14 +1779,13 @@
             empty.classList.add('hidden');
             list.innerHTML = '';
             
-            // Sort filtered transactions
             const sortedTransactions = [...filteredTransactions].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             sortedTransactions.forEach(transaction => {
                 const item = document.createElement('div');
                 item.className = 'transaction-item';
                 
-                const amountDisplay = transaction.type === 'topup' 
+                const amountDisplay = transaction.type === 'topup' || transaction.type === 'additional'
                     ? 'Rp ' + transaction.amount.toLocaleString()
                     : transaction.amount + ' Koin';
                 
@@ -1641,6 +1812,86 @@
                 list.appendChild(item);
             });
         }
+
+        // Package Selection
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize data
+            const savedTransactions = localStorage.getItem('fastwash_transactions');
+            if (savedTransactions) {
+                transactions = JSON.parse(savedTransactions);
+            }
+            
+            const savedBalance = localStorage.getItem('fastwash_coin_balance');
+            if (savedBalance) {
+                userCoinBalance = parseInt(savedBalance);
+                document.querySelector('.coin-amount').textContent = userCoinBalance;
+            }
+            
+            const savedAdditionalServices = localStorage.getItem('fastwash_additional_services');
+            if (savedAdditionalServices) {
+                purchasedAdditionalServices = JSON.parse(savedAdditionalServices);
+            }
+
+            // SINKRONISASI MESIN - INISIALISASI
+            initializeMachines();
+            startMachineAutoRefresh();
+
+            // Event listeners
+            document.querySelectorAll('#coin-page .package-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#coin-page .package-item').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedPackage = {
+                        coins: parseInt(this.getAttribute('data-coins')),
+                        price: parseInt(this.getAttribute('data-price'))
+                    };
+                    
+                    document.getElementById('coin-summary').textContent = `${selectedPackage.coins} Koin`;
+                    document.getElementById('payment-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
+                    document.getElementById('payment-coin-summary').textContent = `${selectedPackage.coins} Koin`;
+                    document.getElementById('payment-coin-total').textContent = `Rp ${selectedPackage.price.toLocaleString()}`;
+                });
+            });
+
+            document.querySelectorAll('#cycle-page .package-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#cycle-page .package-item').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedCycle = {
+                        cycles: parseInt(this.getAttribute('data-cycles')),
+                        coins: parseInt(this.getAttribute('data-coins'))
+                    };
+                    
+                    document.getElementById('cycle-payment-total').textContent = `${selectedCycle.coins} Koin`;
+                    document.getElementById('payment-total-amount').textContent = `${selectedCycle.coins} Koin`;
+                });
+            });
+
+            document.querySelectorAll('#additional-services-page .package-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#additional-services-page .package-item').forEach(p => p.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    selectedAdditionalService = {
+                        service: this.getAttribute('data-service'),
+                        price: parseInt(this.getAttribute('data-price')),
+                        name: this.querySelector('.package-name').textContent,
+                        duration: parseInt(this.getAttribute('data-duration')),
+                        type: this.getAttribute('data-type')
+                    };
+                    
+                    document.getElementById('additional-service-summary').textContent = selectedAdditionalService.name;
+                    document.getElementById('additional-service-total').textContent = `Rp ${selectedAdditionalService.price.toLocaleString()}`;
+                    document.getElementById('payment-additional-service').textContent = selectedAdditionalService.name;
+                    document.getElementById('payment-additional-service-total').textContent = `Rp ${selectedAdditionalService.price.toLocaleString()}`;
+                    document.getElementById('payment-additional-duration').textContent = `+${selectedAdditionalService.duration} menit`;
+                });
+            });
+
+            loadTransactions();
+        });
     </script>
 </body>
-  </html>
+</html>
